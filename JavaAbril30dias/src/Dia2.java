@@ -2,63 +2,48 @@ import java.util.Scanner;
 
 public class Dia2 {
     public static void main(String[] args) {
+        String[] allMonths = {"Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"};
+        String[] months30days = {"Abril", "Junio", "Septiembre", "Noviembre"};
         Scanner scanner = new Scanner(System.in);
-        String[] month30Days = {"Abril", "Junio", "Septiembre", "Noviembre"};
-        String[] month31Days = {"Enero", "Marzo", "Mayo", "Julio", "Agosto", "Octubre", "Diciembre"};
-        String[] allMonths = {
-                "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
-                "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
-        };
-
-        System.out.println("Introduce el año actual: ");
+        System.out.println("Introduce un año: ");
         int year = scanner.nextInt();
-        // Para determinar si el año es bisiesto el año debe ser múltiplo de 4 pero no de 100, excepto si es múltiplo de 400.
-        System.out.println(isLeapYear(year) ? "El año es bisiesto" : "El año no es bisiesto");
         int februaryDays = isLeapYear(year) ? 29 : 28;
 
-        for (int month = 0; month < allMonths.length; month++) {
-            System.out.println(allMonths[month]);
-
-            // Contador de días
-            int dayCount = 0;
-
-            int daysInMonth = 31;
-            if (isMonth30Days(allMonths[month], month30Days)) {
-                daysInMonth = 30;
-            } else if (allMonths[month].equals("Febrero")) {
-                daysInMonth = februaryDays;
+        for (int i = 0; i < allMonths.length; i++) {
+            System.out.println(allMonths[i]);
+            if (is30Days(months30days, allMonths[i])) {
+                displayMonths(30);
             }
-
-            // Imprimir días
-            for (int i = 1; i <= daysInMonth; i++) {
-                System.out.print(i + "\t");
-                dayCount++;
-
-                if (dayCount == 7) {
-                    System.out.println();
-                    dayCount = 0;
-                }
+            else if (allMonths[i].equals("Febrero")){
+                displayMonths(februaryDays);
             }
-            System.out.print("\n\n");
+            else {
+                displayMonths(31);
+            }
+            System.out.println("\n\n");
         }
-
         scanner.close();
     }
-
-    // Método para verificar si el mes tiene 30 días
-    public static boolean isMonth30Days(String month, String[] month30Days) {
-        for (String m : month30Days) {
-            if (m.equals(month)) {
+    public static boolean isLeapYear(int year) {
+        if (year % 4 == 0 && year % 100 != 0 || year % 400 == 0) {
+            return true;
+        }
+        return false;
+    }
+    public static boolean is30Days(String[] months, String month) {
+        for (int i = 0; i < months.length; i++) {
+            if (months[i].equals(month)) {
                 return true;
             }
         }
         return false;
     }
-
-    public static boolean isLeapYear(int year) {
-        if ((year % 4 == 0 && year % 100 != 0) || year % 400 == 0) {
-            return true;
+    public static void displayMonths(int monthDays) {
+        for (int i=1; i <= monthDays; i++) {
+            System.out.print(i + "\t");
+            if (i % 7 == 0) {
+                System.out.println();
+            }
         }
-        return false;
     }
 }
