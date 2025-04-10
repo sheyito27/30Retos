@@ -19,5 +19,6 @@ public class Dia9 {
                 System.out.println(i);
             }
         }
+        input.close();
     }
 }
